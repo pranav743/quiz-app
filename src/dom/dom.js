@@ -1,9 +1,12 @@
 import { questions } from "../constants/constants.js";
 import { caculateScore } from "../util/operations.js";
-import { generateQuestions } from "./generateQuestions.js";
-import { createTimer } from "./timer.js";
+import { generateQuestions } from "../util/generateQuestions.js";
+import { createTimer } from "../state/timer.js";
+import getHighScore from "../state/highScore.js";
 let currentIndex = 0;
 const app = document.getElementById("root") || document.body;
+const highScoreContainer = document.createElement("div");
+highScoreContainer.innerText = "Highest Score : " + getHighScore();
 
 let currentTimer = null;
 
@@ -27,6 +30,8 @@ const nextQuestion = () => {
     nextQuestionBtn.style.display = 'none';
     clearInterval(currentTimer.ticking);
     clearTimeout(currentTimer.timer);
+    localStorage.setItem("highScore", score);
+    highScoreContainer.innerText = "Highest Score : " + getHighScore();
     return true;
   }
   startTimer();
@@ -56,6 +61,7 @@ nextQuestionBtn.addEventListener("click", ()=> {
 })
 
 const mountUI = () => {
+  app.appendChild(highScoreContainer);
   app.appendChild(container);
   app.appendChild(nextQuestionBtn);
 };
