@@ -3,6 +3,7 @@ import { caculateScore } from "../util/operations.js";
 import { generateQuestions } from "../util/generateQuestions.js";
 import { createTimer } from "../state/timer.js";
 import getHighScore from "../state/highScore.js";
+
 let currentIndex = 0;
 const app = document.getElementById("root") || document.body;
 const highScoreContainer = document.createElement("div");
@@ -59,6 +60,20 @@ nextQuestionBtn.innerText = "Start";
 nextQuestionBtn.addEventListener("click", ()=> {
   nextQuestion();
 })
+
+document.addEventListener("keydown", function handleKeydown(event) {
+  if (["1", "2", "3", "4"].includes(event.key)) {
+    const questionIndex = currentIndex - 1;
+    if (questionIndex < 0) return;
+    const optionIndex = parseInt(event.key, 10) - 1;
+    const radiosForCurrentQuestion = document.querySelectorAll(`input[name="question_${questionIndex}"]`);
+    const selectedRadio = radiosForCurrentQuestion[optionIndex];
+    if (selectedRadio) {
+      selectedRadio.checked = true;
+      answers[questionIndex] = selectedRadio.value;
+    }
+  }
+});
 
 const mountUI = () => {
   app.appendChild(highScoreContainer);

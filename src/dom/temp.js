@@ -9,13 +9,13 @@ export const generateQuestions = (container, answers) => {
     let optionsList = document.createElement("ul");
     optionsList.style.listStyle = "none";
 
-    q.options.forEach((option) => {
+    q.options.forEach((option, ind) => {
       let optionItem = document.createElement("li");
       let radioInput = document.createElement("input");
       radioInput.type = "radio";
       radioInput.name = `question_${index}`;
       radioInput.value = option;
-      radioInput.id = `q${index}_option_${option}`;
+      radioInput.id = `q${index}_option_${ind}`;
 
       radioInput.addEventListener("change", () => {
         answers[index] = option;
